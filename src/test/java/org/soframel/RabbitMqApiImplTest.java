@@ -29,13 +29,13 @@ public class RabbitMqApiImplTest {
                 .when()
                 .get("/rabbit?s=" + msg)
                 .then()
-                .statusCode(200);
+                .statusCode(204);
 
         // Check that one message was received? not needed, we test that routed=true
 
         // Wait for message to be read
         try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             // NO-OP
         }

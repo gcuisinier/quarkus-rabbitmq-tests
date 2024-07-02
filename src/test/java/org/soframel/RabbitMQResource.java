@@ -33,8 +33,8 @@ public class RabbitMQResource implements QuarkusTestResourceLifecycleManager {
     public Map<String, String> start() {
         rabbitMqContainer.start();
         Map<String, String> props = new HashMap<>();
-        props.put("amqp-host", rabbitMqContainer.getHost());
-        props.put("amqp-port", rabbitMqContainer.getMappedPort(RABBITMQ_PORT) + "");
+        props.put("rabbitmq-host", rabbitMqContainer.getHost());
+        props.put("rabbitmq-port", rabbitMqContainer.getMappedPort(RABBITMQ_PORT) + "");
         return props;
     }
 

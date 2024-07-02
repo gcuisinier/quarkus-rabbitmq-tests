@@ -60,8 +60,8 @@
     "queues": [
         {
             "name": "myqueue",
-            "vhost": "/",
-            "durable": false,
+            "vhost": "myvhost",
+            "durable": true,
             "auto_delete": false,
             "routing_key": "",
             "arguments": {
@@ -72,9 +72,9 @@
     "exchanges": [
         {
             "name": "myqueue-exchange",
-            "vhost": "/",
+            "vhost": "myvhost",
             "type": "direct",
-            "durable": false,
+            "durable": true,
             "auto_delete": false,
             "internal": false,
             "arguments": {}
@@ -83,7 +83,7 @@
     "bindings": [
         {
             "source": "myqueue-exchange",
-            "vhost": "/",
+            "vhost": "myvhost",
             "destination": "myqueue",
             "destination_type": "queue",
             "routing_key": "",

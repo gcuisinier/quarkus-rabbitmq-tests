@@ -3,6 +3,7 @@ package org.soframel;
 import java.util.concurrent.CompletionStage;
 import java.util.logging.Logger;
 
+import io.smallrye.reactive.messaging.annotations.Blocking;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
@@ -24,6 +25,7 @@ public class RabbitConsumer {
     }
 
     @Incoming("myqueue-in")
+    @Blocking
     public CompletionStage<Void> readMessage(Message<String> message) {
         lastMessage = message.getPayload();
         logger.info("Received message " + lastMessage);
