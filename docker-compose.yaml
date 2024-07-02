@@ -1,0 +1,14 @@
+services:
+  rabbit:
+    image: rabbitmq:3.13-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./src/test/resources/etc_rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - ./src/test/resources/etc_rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./src/test/resources/etc_rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_CONFIG_FILE=/etc/rabbitmq/rabbitmq.conf
