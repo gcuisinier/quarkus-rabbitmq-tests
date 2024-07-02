@@ -1,69 +1,13 @@
 # Quarkus RabbitMQ Tests
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Tests with Quarkus and RabbitMQ. 
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+RabbitMQ instance is started from the docker compose file, using configurations read from `src/test/resource/etc_rabbitmq`. 
+The same configuration is also used in a RabbitMQ testcontainers for unit tests. 
 
-## Running the application in dev mode
+## Ack/Nack in case of Queue overflow
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
+RabbitMQ is configured to only accept 1 message per queue in `src/test/resource/etc_rabbitmq/definitions.json` using a `reject-publish` mode, using a policy (see https://www.rabbitmq.com/docs/maxlength#overflow-behaviour).
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/code-with-quarkus-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- Messaging - AMQP Connector ([guide](https://quarkus.io/guides/amqp)): Connect to AMQP with Reactive Messaging
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-
-## Provided Code
-
-### Messaging codestart
-
-Use Quarkus Messaging
-
-[Related Apache AMQP 1.0 guide section...](https://quarkus.io/guides/amqp)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+The application is configured to only produce messages, and not consume them (consumer has been commented), with `publish-confirms=true`. 
+The test in `RabbitMqApiImplTest.testPublishOverflowAckNack` publishes 3 message, and should receive a nack at least for the 3rd one (rabbitmq accepts one message more than configured in overflow). 
