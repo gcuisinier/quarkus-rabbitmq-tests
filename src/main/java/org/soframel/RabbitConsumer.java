@@ -24,12 +24,12 @@ public class RabbitConsumer {
         return lastMessage;
     }
 
-    @Incoming("myqueue-in")
+    /*@Incoming("myqueue-in")
     @Blocking
     public CompletionStage<Void> readMessage(Message<String> message) {
         lastMessage = message.getPayload();
         logger.info("Received message " + lastMessage);
         return message.ack();
-    }
+    }*/
 
 }

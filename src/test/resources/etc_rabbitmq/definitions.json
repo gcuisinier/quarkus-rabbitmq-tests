@@ -56,7 +56,18 @@
             "value": "rabbitmq-cluster-id-etcy_oJHBBnlTUJQa2nsoA"
         }
     ],
-    "policies": [],
+    "policies": [
+        {
+            "vhost": "myvhost",
+            "name": "myqueue-policy",
+            "pattern": "",
+            "apply_to": "quorum",
+            "definition": {
+                "max-length": 1,
+                "max-length-bytes": 1000000
+            }
+        }
+    ],
     "queues": [
         {
             "name": "myqueue",
@@ -65,7 +76,9 @@
             "auto_delete": false,
             "routing_key": "",
             "arguments": {
-                "x-queue-type": "quorum"
+                "x-queue-type": "quorum",
+                "x-dead-letter-strategy": "at-least-once",
+                "x-overflow": "reject-publish"
             }
         }
     ],
