@@ -18,8 +18,8 @@ public class RabbitResource {
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
-    // @Inject
-    // @Channel("myqueue-out")
+    @Inject
+    @Channel("myqueue-out")
     Emitter<String> emitter;
 
     @GET
