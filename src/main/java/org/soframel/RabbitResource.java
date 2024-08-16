@@ -22,13 +22,23 @@ public class RabbitResource {
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
+    String s = "hellow";
+
     @Channel("myqueue-out")
     MutinyEmitter<String> emitter;
 
-    @GET
-    public Uni<Void> produce(@QueryParam(value = "s") String s) {
+    @GET()
+    @Path("async")
+    public Uni<Void> produce() {
         logger.info("producing message " + s);
-        //emitter.sendMessageAndAwait(Message.of(s));
         return emitter.send(s);
+    }
+
+    @GET
+    @Path("sync")
+    public void produceWait() {
+        logger.info("producing message " + s);
+        emitter.sendMessageAndAwait(Message.of(s));
+        //  return emitter.send(s);
     }
 }
